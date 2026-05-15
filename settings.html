@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studio Preferences | NICHY.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400;1,500;1,600&family=Poppins:wght@200;300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #FAF9F6;
+            --primary: #B18B8E;
+            --gold: #C5A059;
+            --charcoal: #2A2A2A;
+            --border: #E5E5E0;
+            --success: #8E9B8B;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); font-family: 'Poppins', sans-serif; color: var(--charcoal); display: flex; scroll-behavior: smooth; }
+
+        /* --- SIDEBAR --- */
+        .sidebar {
+            width: 260px; background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(30px);
+            padding: 40px; display: flex; flex-direction: column; position: fixed;
+            height: 100vh; border-right: 1px solid rgba(0,0,0,0.03); z-index: 100;
+        }
+        .logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--gold); font-weight: 600; margin-bottom: 50px; letter-spacing: -1px; }
+        .nav-menu { list-style: none; }
+        .nav-item { margin-bottom: 25px; }
+        .nav-item a { text-decoration: none; color: #999; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; transition: 0.4s; }
+        .nav-item.active a { color: var(--primary); font-style: italic; }
+        .logout-link { margin-top: auto; text-decoration: none; color: var(--gold); font-size: 0.75rem; letter-spacing: 4px; opacity: 0.6; display: block; }
+
+        /* --- MAIN CONTENT --- */
+        .content { margin-left: 260px; padding: 80px 8% 100px; width: calc(100% - 260px); min-height: 100vh; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Header */
+        .header-section { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 60px; }
+        .header-title span { font-family: 'Playfair Display', serif; font-style: italic; color: var(--primary); font-size: 1.1rem; }
+        .header-title h1 { font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 400; line-height: 1; margin-top: 10px; }
+
+        /* --- SETTINGS SECTIONS --- */
+        .settings-container { max-width: 900px; }
+        
+        .setting-block { 
+            margin-bottom: 60px; padding-bottom: 50px; 
+            border-bottom: 1px solid var(--border); 
+        }
+        .setting-block:last-child { border-bottom: none; }
+
+        .block-header { margin-bottom: 40px; display: flex; gap: 20px; align-items: baseline; }
+        .block-num { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--gold); font-style: italic; }
+        .block-title h2 { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 400; color: var(--charcoal); margin-bottom: 5px; }
+        .block-title p { font-size: 0.75rem; color: #999; font-weight: 300; }
+
+        /* --- FORM AREA --- */
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; margin-bottom: 35px; }
+        .group { display: flex; flex-direction: column; gap: 10px; }
+        .group label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: #bbb; }
+        
+        .group input, .group select, .group textarea {
+            border: none; border-bottom: 1px solid var(--border);
+            background: transparent; padding: 12px 0;
+            font-family: 'Poppins', sans-serif; font-size: 1rem;
+            color: var(--charcoal); outline: none; transition: 0.4s;
+            font-weight: 300; appearance: none; resize: none;
+        }
+        .group input:focus, .group select:focus, .group textarea:focus { border-bottom: 1px solid var(--gold); }
+        .group input::placeholder, .group textarea::placeholder { color: #ddd; }
+
+        /* Upload Avatar */
+        .avatar-upload { display: flex; align-items: center; gap: 30px; margin-bottom: 40px; }
+        .avatar-preview { 
+            width: 90px; height: 90px; border-radius: 50%; background: #eee; 
+            overflow: hidden; border: 1px solid var(--border);
+        }
+        .avatar-preview img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%); }
+        .upload-btn {
+            background: transparent; border: 1px solid var(--border); color: var(--charcoal);
+            padding: 10px 25px; border-radius: 30px; font-family: 'Poppins', sans-serif;
+            font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: 0.3s;
+        }
+        .upload-btn:hover { border-color: var(--gold); color: var(--gold); }
+        #avatarInput { display: none; }
+
+        /* --- AESTHETIC TOGGLE SWITCH --- */
+        .toggle-row { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid rgba(0,0,0,0.03); }
+        .toggle-info span { display: block; font-size: 0.9rem; color: var(--charcoal); margin-bottom: 3px; }
+        .toggle-info p { font-size: 0.7rem; color: #aaa; font-weight: 300; }
+        
+        .switch { position: relative; display: inline-block; width: 44px; height: 22px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--border); transition: .4s; border-radius: 30px; }
+        .slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--primary); }
+        input:checked + .slider:before { transform: translateX(22px); }
+
+        /* Button Save */
+        .btn-primary { 
+            background: var(--charcoal); color: white;
+            padding: 20px 50px; border-radius: 50px; border: none;
+            font-size: 0.75rem; text-transform: uppercase; letter-spacing: 3px;
+            cursor: pointer; transition: 0.4s; display: inline-flex; align-items: center; gap: 10px;
+        }
+        .btn-primary:hover { background: var(--primary); transform: translateY(-2px); }
+        .btn-primary.saved { background: var(--success); pointer-events: none; }
+
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="logo">NICHY</div>
+        <ul class="nav-menu">
+           <li class="nav-item active"><a href="dashboard.html"><span>Dashboard</span></a></li>
+            <li class="nav-item"><a href="kelola-produk.html"><span>Kelola Produk</span></a></li>
+            <li class="nav-item"><a href="kelola-artikel.html"><span>Kelola Artikel</span></a></li>
+            <li class="nav-item"><a href="kelola-pengguna.html"><span>Kelola Pengguna</span></a></li>
+            <li class="nav-item"><a href="kelola-transaksi.html"><span>Kelola Transaksi</span></a></li>
+            <li class="nav-item"><a href="settings.html"><span>Settings</span></a></li>
+        </ul>
+        <a href="dashboard.html" class="logout-link">LOGOUT</a>
+    </aside>
+
+    <main class="content">
+        <header class="header-section">
+            <div class="header-title">
+                <span>Configuration</span>
+                <h1>Studio Preferences</h1>
+            </div>
+        </header>
+
+        <div class="settings-container">
+            
+            <div class="setting-block">
+                <div class="block-header">
+                    <div class="block-num">01</div>
+                    <div class="block-title">
+                        <h2>Studio Identity</h2>
+                        <p>Manage your brand's public presence and contact information.</p>
+                    </div>
+                </div>
+
+                <div class="avatar-upload">
+                    <div class="avatar-preview">
+                        <img src="assets/nichy.png" alt="Studio Logo">
+                    </div>
+                    <div>
+                        <label for="avatarInput" class="upload-btn">Change Identity</label>
+                        <input type="file" id="avatarInput" accept="image/*">
+                        <p style="font-size: 0.6rem; color: #bbb; margin-top: 10px; text-transform: uppercase; letter-spacing: 1px;">Max size 2MB</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="group">
+                        <label>Brand Name</label>
+                        <input type="text" value="NICHY Lotion">
+                    </div>
+                    <div class="group">
+                        <label>Contact Email</label>
+                        <input type="email" value="hello@nichy.co">
+                    </div>
+                </div>
+
+                <div class="group" style="margin-bottom: 35px;">
+                    <label>Studio Address</label>
+                    <input type="text" value="Jl. Senopati No. 45, Kebayoran Baru, Jakarta Selatan">
+                </div>
+
+                <div class="group">
+                    <label>Brand Biography</label>
+                    <textarea rows="3">Setiap botol NICHY Lotion diracik dengan prinsip Quiet Luxury: formulasi ringan namun mendalam, memberikan kelembapan yang tidak hanya dirasakan oleh kulit, tetapi juga menenangkan sistem saraf melalui aromaterapi yang halus.</textarea>
+                </div>
+            </div>
+
+            <div class="setting-block">
+                <div class="block-header">
+                    <div class="block-num">02</div>
+                    <div class="block-title">
+                        <h2>System & Notifications</h2>
+                        <p>Customize your dashboard experience and alerts.</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="group">
+                        <label>Base Currency</label>
+                        <select>
+                            <option>IDR - Indonesian Rupiah</option>
+                            <option>USD - US Dollar</option>
+                            <option>EUR - Euro</option>
+                        </select>
+                    </div>
+                    <div class="group">
+                        <label>Timezone</label>
+                        <select>
+                            <option>WIB (Jakarta) - GMT+7</option>
+                            <option>WITA (Bali) - GMT+8</option>
+                            <option>WIT (Papua) - GMT+9</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="margin-top: 40px;">
+                    <label style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: #bbb; margin-bottom: 20px; display: block;">Alert Preferences</label>
+                    
+                    <div class="toggle-row">
+                        <div class="toggle-info">
+                            <span>New Order Notifications</span>
+                            <p>Receive email alerts for every new transaction.</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="toggle-row">
+                        <div class="toggle-info">
+                            <span>Low Stock Warnings</span>
+                            <p>Get notified when a product inventory falls below 5 items.</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="toggle-row" style="border-bottom: none;">
+                        <div class="toggle-info">
+                            <span>Weekly Analytics Digest</span>
+                            <p>Receive a summary report of your sales every Monday.</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="setting-block">
+                <div class="block-header">
+                    <div class="block-num">03</div>
+                    <div class="block-title">
+                        <h2>Security</h2>
+                        <p>Protect your studio's administrative access.</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="group">
+                        <label>Current Password</label>
+                        <input type="password" placeholder="••••••••">
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 0;">
+                    <div class="group">
+                        <label>New Password</label>
+                        <input type="password" placeholder="Leave blank to keep current">
+                    </div>
+                    <div class="group">
+                        <label>Confirm Password</label>
+                        <input type="password" placeholder="">
+                    </div>
+                </div>
+            </div>
+
+            <div style="padding-top: 20px;">
+                <button class="btn-primary" id="saveBtn" onclick="saveSettings()">
+                    Update Preferences
+                </button>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // Animasi tombol save untuk memberikan interaktivitas elegan
+        function saveSettings() {
+            const btn = document.getElementById('saveBtn');
+            const originalText = btn.innerHTML;
+            
+            // State: Saving
+            btn.innerHTML = "Saving Changes...";
+            btn.style.opacity = "0.7";
+            
+            // State: Saved (Simulasi proses 1 detik)
+            setTimeout(() => {
+                btn.classList.add('saved');
+                btn.innerHTML = "✓ Preferences Updated";
+                btn.style.opacity = "1";
+                
+                // State: Return to Normal (setelah 3 detik)
+                setTimeout(() => {
+                    btn.classList.remove('saved');
+                    btn.innerHTML = originalText;
+                }, 3000);
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

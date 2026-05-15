@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Editorials | NICHY.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400;1,500;1,600&family=Poppins:wght@200;300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #FAF9F6;
+            --primary: #B18B8E;
+            --gold: #C5A059;
+            --charcoal: #2A2A2A;
+            --border: #E5E5E0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); font-family: 'Poppins', sans-serif; color: var(--charcoal); display: flex; scroll-behavior: smooth; }
+
+        /* --- SIDEBAR --- */
+        .sidebar {
+            width: 260px; background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(30px);
+            padding: 40px; display: flex; flex-direction: column; position: fixed;
+            height: 100vh; border-right: 1px solid rgba(0,0,0,0.03); z-index: 100;
+        }
+        .logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--gold); font-weight: 600; margin-bottom: 50px; letter-spacing: -1px; }
+        .nav-menu { list-style: none; }
+        .nav-item { margin-bottom: 25px; }
+        .nav-item a { text-decoration: none; color: #999; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; transition: 0.4s; }
+        .nav-item.active a { color: var(--primary); font-style: italic; }
+        .logout-link { margin-top: auto; text-decoration: none; color: var(--gold); font-size: 0.75rem; letter-spacing: 4px; opacity: 0.6; display: block; }
+
+        /* --- MAIN CONTENT --- */
+        .content { margin-left: 260px; padding: 80px 8% 100px; width: calc(100% - 260px); min-height: 100vh; }
+
+        .page-section { display: none; animation: fadeIn 0.5s ease; }
+        .page-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Header */
+        .header-section { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 50px; }
+        .header-title span { font-family: 'Playfair Display', serif; font-style: italic; color: var(--primary); font-size: 1.1rem; }
+        .header-title h1 { font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 400; line-height: 1; margin-top: 10px; }
+
+        /* Controls: Filter & Sort */
+        .list-controls { 
+            display: flex; justify-content: space-between; align-items: center; 
+            border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 50px; 
+        }
+        .controls-left span { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 3px; color: #999; }
+        .controls-right { display: flex; align-items: center; gap: 15px; }
+        .controls-right label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: #bbb; }
+        .sort-select {
+            border: none; border-bottom: 1px solid var(--charcoal);
+            background: transparent; font-family: 'Poppins', sans-serif;
+            font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px;
+            color: var(--charcoal); outline: none; cursor: pointer; padding-bottom: 3px;
+        }
+
+        /* Buttons */
+        .btn-primary { 
+            background: var(--charcoal); color: white;
+            padding: 18px 45px; border-radius: 50px; border: none;
+            font-size: 0.7rem; text-transform: uppercase; letter-spacing: 3px;
+            cursor: pointer; transition: 0.4s;
+        }
+        .btn-primary:hover { background: var(--primary); transform: translateY(-2px); }
+
+        .btn-back { 
+            background: none; border: none; font-family: 'Poppins', sans-serif;
+            font-size: 0.65rem; letter-spacing: 3px; text-transform: uppercase;
+            color: var(--charcoal); cursor: pointer; transition: 0.3s;
+        }
+
+        /* --- ARTICLE GRID --- */
+        .article-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 70px 50px; }
+        .article-card { background: transparent; border: none; display: flex; flex-direction: column; }
+        
+        .img-wrapper { 
+            width: 100%; height: 260px; overflow: hidden; 
+            margin-bottom: 25px; position: relative; background: #eee;
+        }
+        .img-wrapper img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(10%); transition: filter 0.5s, transform 0.7s; }
+        .article-card:hover .img-wrapper img { filter: grayscale(0%); transform: scale(1.03); }
+
+        .article-meta { font-size: 0.6rem; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; font-weight: 400; display: flex; gap: 12px; margin-bottom: 12px; }
+        .article-title { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 400; line-height: 1.3; margin-bottom: 12px; color: var(--charcoal); }
+        .article-excerpt { font-size: 0.85rem; font-weight: 300; color: #777; line-height: 1.6; margin-bottom: 25px; flex-grow: 1; display: -webkit-box; line-clamp: 3; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+
+        .action-links { display: flex; gap: 20px; margin-top: auto; }
+        .link-btn { 
+            background: none; border: none; font-family: 'Poppins', sans-serif;
+            font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px;
+            cursor: pointer; padding-bottom: 3px; transition: 0.3s;
+        }
+        .link-edit { color: var(--charcoal); border-bottom: 1px solid var(--charcoal); }
+        .link-del { color: #d69e9e; border-bottom: 1px solid transparent; }
+        .link-del:hover { border-color: #d69e9e; }
+
+        /* --- PAGINATION --- */
+        .pagination { display: flex; justify-content: center; align-items: center; gap: 20px; margin-top: 80px; }
+        .page-num { 
+            background: none; border: none; font-family: 'Playfair Display', serif; 
+            font-size: 1.2rem; color: #bbb; cursor: pointer; transition: 0.3s;
+            font-style: italic;
+        }
+        .page-num:hover { color: var(--primary); }
+        .page-num.active { color: var(--charcoal); border-bottom: 1px solid var(--charcoal); }
+
+        /* --- FORM AREA --- */
+        .form-area { max-width: 900px; margin-top: 40px; }
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-bottom: 50px; }
+        .group { display: flex; flex-direction: column; gap: 15px; margin-bottom: 40px; }
+        .group label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 3px; color: #bbb; font-weight: 400; }
+        
+        .group input, .group select, .group textarea {
+            border: none; border-bottom: 1px solid var(--border);
+            background: transparent; padding: 15px 0;
+            font-family: 'Poppins', sans-serif; font-size: 1.05rem;
+            color: var(--charcoal); outline: none; transition: 0.4s;
+            font-weight: 300; appearance: none; resize: none;
+        }
+        .group input:focus, .group select:focus, .group textarea:focus { border-bottom: 1px solid var(--gold); }
+        
+        .cover-upload {
+            width: 100%; height: 200px; border: 1px dashed var(--border);
+            display: flex; align-items: center; justify-content: center;
+            flex-direction: column; gap: 10px; cursor: pointer; transition: 0.3s;
+        }
+        .cover-upload:hover { border-color: var(--gold); background: rgba(197, 160, 89, 0.02); }
+        .cover-upload span { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; color: var(--gold); }
+        #coverInput { display: none; }
+
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="logo">NICHY</div>
+        <ul class="nav-menu">
+            <li class="nav-item active"><a href="dashboard.html"><span>Dashboard</span></a></li>
+            <li class="nav-item"><a href="kelola-produk.html"><span>Kelola Produk</span></a></li>
+            <li class="nav-item"><a href="kelola-artikel.html"><span>Kelola Artikel</span></a></li>
+            <li class="nav-item"><a href="kelola-pengguna.html"><span>Kelola Pengguna</span></a></li>
+            <li class="nav-item"><a href="kelola-transaksi.html"><span>Kelola Transaksi</span></a></li>
+            <li class="nav-item"><a href="settings.html"><span>Settings</span></a></li>
+        </ul>
+        <a href="#" class="logout-link">LOGOUT</a>
+    </aside>
+
+    <main class="content">
+        <section id="listPage" class="page-section active">
+            <header class="header-section">
+                <div class="header-title">
+                    <span>Publications</span>
+                    <h1>The Journal</h1>
+                </div>
+                <button class="btn-primary" onclick="showPage('addPage')">Draft Article</button>
+            </header>
+
+            <div class="list-controls">
+                <div class="controls-left">
+                    <span>Published Editorials</span>
+                </div>
+                <div class="controls-right">
+                    <label>Sort By:</label>
+                    <select class="sort-select" id="sortDropdown" onchange="handleSort(this.value)">
+                        <option value="newest">Last Updated (Newest)</option>
+                        <option value="oldest">Last Updated (Oldest)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="article-grid" id="articleGrid"></div>
+            
+            <div class="pagination" id="paginationArea"></div>
+        </section>
+
+        <section id="addPage" class="page-section">
+            <header class="header-section" style="margin-bottom: 40px;">
+                <div class="header-title">
+                    <span>New Publication</span>
+                    <h1>Draft Journal</h1>
+                </div>
+                <button class="btn-back" onclick="showPage('listPage')">← Return</button>
+            </header>
+
+            <div class="form-area">
+                <div class="group">
+                    <label>Cover Photography</label>
+                    <label for="coverInput" class="cover-upload">
+                        <span>+ Upload Imagery</span>
+                        <p style="font-size: 0.6rem; color: #bbb;">High-resolution .jpg or .png</p>
+                    </label>
+                    <input type="file" id="coverInput" accept="image/*">
+                </div>
+
+                <div class="group">
+                    <label>Headline Title</label>
+                    <input type="text" id="newTitle" placeholder="e.g. The Art of Botanical Rituals">
+                </div>
+
+                <div class="row" style="margin-bottom: 0;">
+                    <div class="group">
+                        <label>Category</label>
+                        <select id="newCat">
+                            <option>Wellness Rituals</option>
+                            <option>Ingredient Focus</option>
+                            <option>Studio Diaries</option>
+                        </select>
+                    </div>
+                    <div class="group">
+                        <label>Author</label>
+                        <input type="text" id="newAuthor" value="Admin NICHY.">
+                    </div>
+                </div>
+
+                <div class="group">
+                    <label>Article Content / Body</label>
+                    <textarea id="newContent" rows="6" placeholder="Begin writing your narrative here..."></textarea>
+                </div>
+
+                <button class="btn-primary" style="margin-top: 20px;" onclick="addArticle()">Publish Journal</button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // 12 Mockup Data Artikel dengan timestamp yang bisa di-sorting
+        let articles = [
+            { id: 1, title: "The Art of Botanical Rituals", author: "Admin NICHY.", timestamp: 1698200000000, date: "Oct 25, 2023", cat: "Wellness Rituals", excerpt: "Discover the grounding practice of incorporating pure botanical essences into your morning routine.", img: "assets/artikel 1.png" },
+            { id: 2, title: "Understanding Rose Absolute", author: "Admin NICHY.", timestamp: 1698000000000, date: "Oct 23, 2023", cat: "Ingredient Focus", excerpt: "An in-depth look at one of the world's most precious oils. We explore the meticulous extraction process.", img: "assets/artikel 2.png" },
+            { id: 3, title: "Minimalism in Skincare", author: "Admin NICHY.", timestamp: 1697500000000, date: "Oct 17, 2023", cat: "Studio Diaries", excerpt: "Why doing less often yields more. We share our studio's philosophy on curating a minimalist skincare wardrobe.", img: "assets/artikel 3.png" },
+            { id: 4, title: "The Science of Scent", author: "Admin NICHY.", timestamp: 1697000000000, date: "Oct 11, 2023", cat: "Ingredient Focus", excerpt: "How fragrances interact with our brain chemistry to evoke memories and create a sense of calm.", img: "assets/artikel 4.png" },
+            { id: 5, title: "Sourcing Ethical Sandalwood", author: "Admin NICHY.", timestamp: 1696500000000, date: "Oct 05, 2023", cat: "Studio Diaries", excerpt: "Our journey to Australia to partner with sustainable farms dedicated to preserving the legacy of Sandalwood.", img: "assets/artikel 5.png" },
+            { id: 6, title: "Evening Unwind Guide", author: "Admin NICHY.", timestamp: 1696000000000, date: "Sep 30, 2023", cat: "Wellness Rituals", excerpt: "A 4-step ritual to signal your body that it's time to rest, featuring our signature sleep essence.", img: "assets/artikel 6.png" },
+            { id: 7, title: "Texture & Touch", author: "Admin NICHY.", timestamp: 1695500000000, date: "Sep 24, 2023", cat: "Ingredient Focus", excerpt: "Why the tactile experience of skincare is just as important as the active ingredients.", img: "assets/artikel 7.png" },
+            { id: 8, title: "Behind the Aesthetics", author: "Admin NICHY.", timestamp: 1695000000000, date: "Sep 18, 2023", cat: "Studio Diaries", excerpt: "An interview with our creative director about the inspiration behind NICHY's visual identity.", img: "assets/artikel 8.png" },
+            { id: 9, title: "Benefits of Cold-Pressed Oils", author: "Admin NICHY.", timestamp: 1694500000000, date: "Sep 12, 2023", cat: "Ingredient Focus", excerpt: "Why heat matters. Understanding the superiority of cold-pressed extraction for nutrient retention.", img: "assets/artikel 9.png" },
+            { id: 10, title: "Mindful Application", author: "Admin NICHY.", timestamp: 1694000000000, date: "Sep 06, 2023", cat: "Wellness Rituals", excerpt: "Transform your rushed skincare routine into a moment of intentional mindfulness and self-care.", img: "assets/artikel 10.png" },
+            { id: 11, title: "The Power of Jasmine", author: "Admin NICHY.", timestamp: 1693500000000, date: "Sep 01, 2023", cat: "Ingredient Focus", excerpt: "Known as the 'King of Oils', explore the uplifting properties of pure Jasmine extract.", img: "assets/artikel 11.png" },
+            { id: 12, title: "Our First Pop-up Gallery", author: "Admin NICHY.", timestamp: 1693000000000, date: "Aug 26, 2023", cat: "Studio Diaries", excerpt: "A recap of our immersive scent and skincare gallery experience in downtown Kyoto.", img: "assets/artikel 12.png" }
+        ];
+
+        // Pengaturan Paginasi & Filter
+        let currentPage = 1;
+        const itemsPerPage = 4;
+        let currentSort = 'newest';
+
+        function renderList() {
+            // 1. Sortir Data
+            let sortedArticles = [...articles].sort((a, b) => {
+                if(currentSort === 'newest') return b.timestamp - a.timestamp;
+                if(currentSort === 'oldest') return a.timestamp - b.timestamp;
+            });
+
+            // 2. Hitung Paginasi
+            const totalPages = Math.ceil(sortedArticles.length / itemsPerPage);
+            if(currentPage > totalPages && totalPages > 0) currentPage = totalPages;
+            
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const paginatedItems = sortedArticles.slice(startIndex, startIndex + itemsPerPage);
+
+            // 3. Render Artikel ke Layar
+            const grid = document.getElementById('articleGrid');
+            grid.innerHTML = '';
+            
+            paginatedItems.forEach(a => {
+                grid.innerHTML += `
+                    <article class="article-card">
+                        <div class="img-wrapper">
+                            <img src="${a.img}" alt="Cover">
+                        </div>
+                        <div class="article-meta">
+                            <span>${a.cat}</span>
+                            <span style="color: #ccc;">|</span>
+                            <span style="color: #999;">Update: ${a.date}</span>
+                        </div>
+                        <h2 class="article-title">${a.title}</h2>
+                        <p class="article-excerpt">${a.excerpt}</p>
+                        <div class="action-links">
+                            <button class="link-btn link-edit" onclick="editArticle(${a.id})">Edit Journal</button>
+                            <button class="link-btn link-del" onclick="deleteArticle(${a.id})">Archive</button>
+                        </div>
+                    </article>
+                `;
+            });
+
+            // 4. Render Angka Paginasi
+            const paginationArea = document.getElementById('paginationArea');
+            paginationArea.innerHTML = '';
+            
+            if(totalPages > 1) {
+                for(let i = 1; i <= totalPages; i++) {
+                    const isActive = i === currentPage ? 'active' : '';
+                    paginationArea.innerHTML += `<button class="page-num ${isActive}" onclick="changePage(${i})">0${i}</button>`;
+                }
+            }
+        }
+
+        function changePage(pageNumber) {
+            currentPage = pageNumber;
+            renderList();
+            window.scrollTo({ top: 0, behavior: 'smooth' }); // Efek scroll halus ke atas
+        }
+
+        function handleSort(sortValue) {
+            currentSort = sortValue;
+            currentPage = 1; // Kembali ke halaman 1 setiap ganti filter
+            renderList();
+        }
+
+        // Fitur Dasar (Navigasi, Add, Delete)
+        function showPage(pageId) {
+            document.querySelectorAll('.page-section').forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function addArticle() {
+            const title = document.getElementById('newTitle').value;
+            const content = document.getElementById('newContent').value;
+            const cat = document.getElementById('newCat').value;
+            const author = document.getElementById('newAuthor').value;
+
+            if(!title || !content) return alert("Please complete the journal details.");
+
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+            const newArt = {
+                id: Date.now(),
+                title: title,
+                author: author,
+                timestamp: now.getTime(), // Waktu aktual sekarang agar bisa di-sorting
+                date: dateStr,
+                cat: cat,
+                excerpt: content, 
+                img: "https://images.unsplash.com/photo-1507005485458-472d49b292ce?q=80&w=800"
+            };
+
+            articles.push(newArt); // Masuk ke database array
+            handleSort(currentSort); // Render ulang sesuai urutan
+            showPage('listPage');
+            
+            document.getElementById('newTitle').value = "";
+            document.getElementById('newContent').value = "";
+        }
+
+        function deleteArticle(id) {
+            if(confirm("Permanently archive this publication?")) {
+                articles = articles.filter(x => x.id !== id);
+                renderList(); // Render ulang
+            }
+        }
+
+        function editArticle(id) {
+            alert("Edit mode untuk artikel ID: " + id);
+        }
+
+        // Jalan pertama kali saat web dibuka
+        renderList();
+    </script>
+</body>
+</html>

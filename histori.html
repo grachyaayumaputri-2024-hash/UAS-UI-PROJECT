@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Archive | NICHY.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@200;300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --primary: #B18B8E;
+            --charcoal: #2A2A2A; /* Lebih gelap agar lebih kontras */
+            --border: #e8e8e8;
+            --bg: #ffffff;
+        }
+
+        body { 
+            background-color: var(--bg); 
+            font-family: 'Poppins', sans-serif;
+            color: var(--charcoal);
+        }
+
+        .history-wrapper {
+            max-width: 1000px;
+            margin: 150px auto;
+            padding: 0 5%;
+        }
+
+        /* --- TITLE --- */
+        .page-title {
+            margin-bottom: 80px;
+            border-bottom: 1px solid var(--charcoal);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding-bottom: 20px;
+        }
+
+        .page-title h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 400;
+            margin: 0;
+            font-style: italic;
+        }
+
+        .page-title span {
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            font-size: 0.7rem;
+            color: var(--primary);
+        }
+
+        /* --- TABLE-LIKE LIST --- */
+        .history-list {
+            width: 100%;
+        }
+
+        .history-header-row {
+            display: grid;
+            grid-template-columns: 1.5fr 3fr 1.5fr 1fr;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.65rem;
+            color: #999;
+        }
+
+        .order-row {
+            display: grid;
+            grid-template-columns: 1.5fr 3fr 1.5fr 1fr;
+            align-items: center;
+            padding: 40px 0;
+            border-bottom: 1px solid var(--border);
+            transition: all 0.4s ease;
+        }
+
+        .order-row:hover {
+            background-color: #fafafa;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        /* Image & ID */
+        .order-main {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .order-id {
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        .order-date {
+            font-size: 0.75rem;
+            color: #999;
+        }
+
+        /* Product Detail */
+        .order-product {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .order-product img {
+            width: 70px;
+            height: 90px;
+            object-fit: cover;
+            filter: sepia(20%); /* Memberi kesan vintage aesthetic */
+        }
+
+        .order-product h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        /* Status */
+        .order-status {
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--primary);
+            border-radius: 50%;
+        }
+
+        .status-dot.shipped { background: #d4af37; }
+
+        /* Price */
+        .order-total {
+            text-align: right;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        /* --- FOOTER LINK --- */
+        .history-footer {
+            margin-top: 100px;
+            text-align: center;
+        }
+
+        .btn-archive {
+            text-decoration: none;
+            color: var(--charcoal);
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            border: 1px solid var(--charcoal);
+            padding: 15px 40px;
+            transition: 0.4s;
+        }
+
+        .btn-archive:hover {
+            background: var(--charcoal);
+            color: white;
+        }
+
+        @media (max-width: 800px) {
+            .history-header-row { display: none; }
+            .order-row {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                text-align: center;
+            }
+            .order-product { flex-direction: column; gap: 10px; }
+            .order-status { justify-content: center; }
+            .order-total { text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo"><h1>NICHY</h1></div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="katalog.html">Collection</a></li>
+        </ul>
+        <div class="nav-icons">
+    <a href="keranjang.html" style="text-decoration: none; color: inherit;">
+        <span class="cart-icon">🛒 (2)</span>
+    </a>
+</div>
+    </nav>
+
+    <div class="history-wrapper">
+        <div class="page-title">
+            <h2>Order Archive</h2>
+            <span>History / 2026</span>
+        </div>
+
+        <div class="history-list">
+            <div class="history-header-row">
+                <span>Reference</span>
+                <span>Product Details</span>
+                <span>Status</span>
+                <span style="text-align: right;">Amount</span>
+            </div>
+
+            <div class="order-row">
+                <div class="order-main">
+                    <span class="order-id">#NC-99281</span>
+                    <span class="order-date">October 12, 2026</span>
+                </div>
+                <div class="order-product">
+                    <img src="assets/rose.png" alt="Rose">
+                    <div>
+                        <h4>Rose Petal Silk</h4>
+                        <p style="font-size: 0.75rem; color: #999; margin-top: 5px;">Body Lotion / 250ml</p>
+                    </div>
+                </div>
+                <div class="order-status">
+                    <div class="status-dot"></div>
+                    <span>Processing</span>
+                </div>
+                <div class="order-total">Rp 89.000</div>
+            </div>
+
+            <div class="order-row">
+                <div class="order-main">
+                    <span class="order-id">#NC-99102</span>
+                    <span class="order-date">September 28, 2026</span>
+                </div>
+                <div class="order-product">
+                    <img src="assets/vanilla.png" alt="Vanilla">
+                    <div>
+                        <h4>Vanilla Calm</h4>
+                        <p style="font-size: 0.75rem; color: #999; margin-top: 5px;">Body Serum / 200ml</p>
+                    </div>
+                </div>
+                <div class="order-status">
+                    <div class="status-dot shipped"></div>
+                    <span style="color: #d4af37;">Shipped</span>
+                </div>
+                <div class="order-total">Rp 99.000</div>
+            </div>
+        </div>
+
+        <div class="history-footer">
+            <a href="katalog.html" class="btn-archive">EXPLORE MORE</a>
+        </div>
+    </div>
+
+</body>
+</html>

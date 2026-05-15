@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Products | NICHY.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400;1,500;1,600&family=Poppins:wght@200;300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #FAF9F6;
+            --primary: #B18B8E;
+            --gold: #C5A059;
+            --charcoal: #2A2A2A;
+            --border: #E5E5E0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); font-family: 'Poppins', sans-serif; color: var(--charcoal); display: flex; }
+
+        /* --- SIDEBAR --- */
+        .sidebar {
+            width: 260px; background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(30px);
+            padding: 40px; display: flex; flex-direction: column; position: fixed;
+            height: 100vh; border-right: 1px solid rgba(0,0,0,0.03); z-index: 100;
+        }
+        .logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--gold); font-weight: 600; margin-bottom: 50px; letter-spacing: -1px; }
+        .nav-menu { list-style: none; }
+        .nav-item { margin-bottom: 25px; }
+        .nav-item a { text-decoration: none; color: #999; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; transition: 0.4s; }
+        .nav-item.active a { color: var(--primary); font-style: italic; }
+        .logout-link { margin-top: auto; text-decoration: none; color: var(--gold); font-size: 0.75rem; letter-spacing: 4px; opacity: 0.6; display: block; }
+
+        /* --- MAIN CONTENT --- */
+        .content { margin-left: 260px; padding: 80px 8% 100px; width: calc(100% - 260px); min-height: 100vh; }
+
+        /* Switcher */
+        .page-section { display: none; animation: fadeIn 0.5s ease; }
+        .page-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Header Layout */
+        .header-section { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 60px; }
+        .header-title span { font-family: 'Playfair Display', serif; font-style: italic; color: var(--primary); font-size: 1.1rem; }
+        .header-title h1 { font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 400; line-height: 1; margin-top: 10px; }
+
+        /* Buttons Minimalis */
+        .btn-primary { 
+            background: var(--charcoal); color: white;
+            padding: 18px 45px; border-radius: 50px; border: none;
+            font-size: 0.7rem; text-transform: uppercase; letter-spacing: 3px;
+            cursor: pointer; transition: 0.4s;
+        }
+        .btn-primary:hover { background: var(--primary); transform: translateY(-2px); }
+
+        /* Tab Filters */
+        .filters { display: flex; gap: 40px; margin-bottom: 50px; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
+        .filter-btn { 
+            background: none; border: none; font-family: 'Poppins', sans-serif;
+            font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase;
+            color: #bbb; cursor: pointer; transition: 0.3s; position: relative;
+        }
+        .filter-btn.active { color: var(--charcoal); }
+        .filter-btn.active::after {
+            content: ''; position: absolute; left: 0; bottom: -16px;
+            width: 100%; height: 2px; background: var(--primary);
+        }
+
+        /* --- PRODUCT GRID (Aesthetic Cards) --- */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 50px 40px; }
+        .card { background: transparent; border: none; }
+        
+        .img-area { 
+            width: 100%; height: 320px; border-radius: 12px; overflow: hidden; 
+            margin-bottom: 20px; background: #eee; position: relative;
+        }
+        .img-area img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s ease; }
+        .card:hover .img-area img { transform: scale(1.05); }
+
+        .card-body .cat { font-size: 0.6rem; color: var(--primary); text-transform: uppercase; letter-spacing: 2px; font-weight: 500; }
+        .card-body h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 500; margin: 8px 0 5px; color: var(--charcoal); }
+        .card-body .price { font-size: 0.85rem; font-weight: 300; letter-spacing: 1px; color: var(--charcoal); }
+        .card-body .stock { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; margin: 15px 0 20px; display: block; }
+
+        .card-actions { display: flex; gap: 15px; }
+        .action-link { 
+            background: none; border: none; font-family: 'Poppins', sans-serif;
+            font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px;
+            cursor: pointer; padding-bottom: 2px; transition: 0.3s;
+        }
+        .action-edit { color: var(--gold); border-bottom: 1px solid var(--gold); }
+        .action-del { color: #d69e9e; border-bottom: 1px solid transparent; }
+        .action-del:hover { border-color: #d69e9e; }
+
+        /* --- FORMS (Plong & Underline Style) --- */
+        .form-area { max-width: 800px; margin-top: 40px; }
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-bottom: 50px; }
+        .group { display: flex; flex-direction: column; gap: 15px; }
+        .group label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 3px; color: #bbb; font-weight: 400; }
+        
+        .group input, .group select {
+            border: none; border-bottom: 1px solid var(--border);
+            background: transparent; padding: 15px 0;
+            font-family: 'Poppins', sans-serif; font-size: 1rem;
+            color: var(--charcoal); outline: none; transition: 0.4s;
+            font-weight: 300; appearance: none;
+        }
+        .group input:focus, .group select:focus { border-bottom: 1px solid var(--gold); }
+
+        /* --- MODAL (Glass Effect) --- */
+        .modal { 
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(250, 249, 246, 0.8); backdrop-filter: blur(10px);
+            z-index: 1000; align-items: center; justify-content: center;
+        }
+        .modal-content { 
+            background: #fff; padding: 60px; border-radius: 30px; width: 550px; 
+            box-shadow: 0 30px 60px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.02);
+        }
+        .modal-content h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 400; margin-bottom: 40px; }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="logo">NICHY</div>
+        <ul class="nav-menu">
+            <li class="nav-item active"><a href="dashboard.html"><span>Dashboard</span></a></li>
+            <li class="nav-item"><a href="kelola-produk.html"><span>Kelola Produk</span></a></li>
+            <li class="nav-item"><a href="kelola-artikel.html"><span>Kelola Artikel</span></a></li>
+            <li class="nav-item"><a href="kelola-pengguna.html"><span>Kelola Pengguna</span></a></li>
+            <li class="nav-item"><a href="kelola-transaksi.html"><span>Kelola Transaksi</span></a></li>
+            <li class="nav-item"><a href="settings.html"><span>Settings</span></a></li>
+        </ul>
+        <a href="#" class="logout-link">LOGOUT</a>
+    </aside>
+
+    <main class="content">
+        <section id="listPage" class="page-section active">
+            <header class="header-section">
+                <div class="header-title">
+                    <span>Inventory</span>
+                    <h1>Manage Products</h1>
+                </div>
+                <button class="btn-primary" onclick="showPage('addPage')">Add Product</button>
+            </header>
+
+            <div class="filters">
+                <button class="filter-btn active" onclick="sortData('all', this)">All Collections</button>
+                <button class="filter-btn" onclick="sortData('bestseller', this)">Best Sellers</button>
+            </div>
+
+            <div class="grid" id="productGrid"></div>
+        </section>
+
+        <section id="addPage" class="page-section">
+            <header class="header-section" style="margin-bottom: 40px;">
+                <div class="header-title">
+                    <span>Expansion</span>
+                    <h1>New Product</h1>
+                </div>
+                <button class="filter-btn" onclick="showPage('listPage')" style="color: var(--charcoal); letter-spacing: 1px; font-size: 0.65rem;">
+                    ← Return to List
+                </button>
+            </header>
+
+            <div class="form-area">
+                <div class="group" style="margin-bottom: 50px;">
+                    <label>Product Name</label>
+                    <input type="text" id="newName" placeholder="e.g. Midnight Silk Essence">
+                </div>
+                <div class="row">
+                    <div class="group">
+                        <label>Category</label>
+                        <select id="newCat">
+                            <option>Botanical Lotion</option>
+                            <option>Ritual Skincare</option>
+                            <option>Pure Fragrance</option>
+                        </select>
+                    </div>
+                    <div class="group">
+                        <label>Price (IDR)</label>
+                        <input type="text" id="newPrice" placeholder="250.000">
+                    </div>
+                </div>
+                <div class="group" style="margin-bottom: 60px;">
+                    <label>Initial Stock Count</label>
+                    <input type="number" id="newStock" placeholder="0">
+                </div>
+                <button class="btn-primary" onclick="addProduct()">Create Product</button>
+            </div>
+        </section>
+    </main>
+
+    <div class="modal" id="editModal">
+        <div class="modal-content">
+            <h2>Edit Record</h2>
+            <div class="group" style="margin-bottom: 40px;">
+                <label>Product Name</label>
+                <input type="text" id="editName">
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 50px;">
+                <div class="group">
+                    <label>Price (IDR)</label>
+                    <input type="text" id="editPrice">
+                </div>
+                <div class="group">
+                    <label>Stock</label>
+                    <input type="number" id="editStock">
+                </div>
+            </div>
+            <div style="display: flex; gap: 20px;">
+                <button class="btn-primary" style="flex:2" onclick="saveChanges()">Commit Change</button>
+                <button class="filter-btn" style="flex:1" onclick="closeModal()">Discard</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data Produk Estetik
+        let products = [
+            { id: 1, name: "Rose PetalSilk", price: "89.000", stock: 120, cat: "Body Lotion", bestseller: true, img: "assets/rose.png" },
+            { id: 2, name: "Peach Glow", price: "89.000", stock: 85, cat: "Body Lotion", bestseller: true, img: "assets/peach.png" },
+            { id: 3, name: "Vanilla Calm", price: "89.000", stock: 15, cat: "Body Lotion", bestseller: false, img: "assets/vanilla.png" },
+            { id: 4, name: "Matcha Bliss", price: "129.000", stock: 12, cat: "Body Scrub", bestseller: false, img: "assets/matcha.png" }
+        ];
+
+        let selectedId = null;
+
+        function render(data) {
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = '';
+            data.forEach(p => {
+                const stockColor = p.stock < 20 ? '#d69e9e' : '#999';
+                grid.innerHTML += `
+                    <div class="card">
+                        <div class="img-area">
+                            <img src="${p.img}">
+                        </div>
+                        <div class="card-body">
+                            <span class="cat">${p.cat}</span>
+                            <h3>${p.name}</h3>
+                            <p class="price">IDR ${p.price}</p>
+                            <span class="stock" style="color: ${stockColor}">Stock Available: ${p.stock}</span>
+                            <div class="card-actions">
+                                <button class="action-link action-edit" onclick="openEdit(${p.id})">Configure</button>
+                                <button class="action-link action-del" onclick="deleteItem(${p.id})">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page-section').forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo(0,0);
+        }
+
+        function addProduct() {
+            const name = document.getElementById('newName').value;
+            const price = document.getElementById('newPrice').value;
+            const stock = document.getElementById('newStock').value;
+            const cat = document.getElementById('newCat').value;
+
+            if(!name || !price) return alert("Please fill the details");
+
+            const newProd = {
+                id: Date.now(),
+                name: name,
+                price: price,
+                stock: parseInt(stock),
+                cat: cat,
+                bestseller: false,
+                img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?q=80&w=600" // Placeholder
+            };
+
+            products.unshift(newProd);
+            render(products);
+            showPage('listPage');
+            
+            // Clear inputs
+            document.getElementById('newName').value = "";
+            document.getElementById('newPrice').value = "";
+            document.getElementById('newStock').value = "";
+        }
+
+        function sortData(type, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const filtered = type === 'all' ? products : products.filter(p => p.bestseller);
+            render(filtered);
+        }
+
+        function openEdit(id) {
+            selectedId = id;
+            const p = products.find(x => x.id === id);
+            document.getElementById('editName').value = p.name;
+            document.getElementById('editPrice').value = p.price;
+            document.getElementById('editStock').value = p.stock;
+            document.getElementById('editModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('editModal').style.display = 'none';
+        }
+
+        function saveChanges() {
+            const idx = products.findIndex(x => x.id === selectedId);
+            products[idx].name = document.getElementById('editName').value;
+            products[idx].price = document.getElementById('editPrice').value;
+            products[idx].stock = parseInt(document.getElementById('editStock').value);
+            render(products);
+            closeModal();
+        }
+
+        function deleteItem(id) {
+            if(confirm("Remove this essence permanently?")) {
+                products = products.filter(x => x.id !== id);
+                render(products);
+            }
+        }
+
+        render(products);
+    </script>
+</body>
+</html>

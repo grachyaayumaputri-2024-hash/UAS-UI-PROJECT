@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registry — NICHY. Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400;1,600&family=Poppins:wght@200;300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #FAF9F6;
+            --primary: #B18B8E;
+            --gold: #C5A059;
+            --charcoal: #2A2A2A;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: var(--bg); font-family: 'Poppins', sans-serif; color: var(--charcoal); display: flex; overflow-x: hidden; }
+
+        /* --- SIDEBAR REVISED (Fixed Position) --- */
+        .sidebar {
+            width: 280px;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(30px);
+            padding: 40px 45px; /* Revisi: Padding atas lebih kecil */
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            border-right: 1px solid rgba(0,0,0,0.03);
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--gold);
+            font-weight: 600;
+            margin-bottom: 50px; /* Revisi: Jarak logo ke menu lebih rapat */
+            letter-spacing: -1px;
+        }
+
+        .nav-menu { list-style: none; }
+        .nav-item { margin-bottom: 25px; }
+        .nav-item a {
+            text-decoration: none;
+            color: #999;
+            font-size: 0.8rem;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            transition: 0.5s;
+        }
+        .nav-item.active a { color: var(--primary); font-style: italic; }
+        .nav-item a:hover { color: var(--charcoal); letter-spacing: 4px; }
+        .logout-link { margin-top: auto; text-decoration: none; color: var(--gold); font-size: 0.75rem; letter-spacing: 4px; opacity: 0.6; }
+
+        /* --- MAIN CONTENT --- */
+        .main-content { margin-left: 280px; padding: 80px 8% 100px; width: 100%; }
+
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 80px;
+        }
+
+        .header-title span { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.1rem; color: var(--primary); display: block; margin-bottom: 5px; }
+        .header-title h1 { font-family: 'Playfair Display', serif; font-size: 4.5rem; font-weight: 400; line-height: 0.9; letter-spacing: -2px; }
+
+        /* --- FILTER BUTTONS --- */
+        .filter-wrapper { display: flex; flex-direction: column; align-items: flex-end; gap: 15px; }
+        .filter-label { font-size: 0.6rem; letter-spacing: 2px; color: #ccc; text-transform: uppercase; }
+        .filter-buttons { display: flex; gap: 10px; }
+        
+        .btn-filter {
+            background: transparent;
+            border: 1px solid #eee;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #999;
+            cursor: pointer;
+            transition: 0.4s ease;
+        }
+
+        .btn-filter:hover { border-color: var(--primary); color: var(--primary); }
+        .btn-filter.active { 
+            background: var(--primary); 
+            border-color: var(--primary); 
+            color: white; 
+            box-shadow: 0 5px 15px rgba(177, 139, 142, 0.2); 
+        }
+
+        /* --- LIST STYLE --- */
+        .list-header {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1.5fr 1fr 1fr;
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #ccc;
+        }
+
+        .list-row {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1.5fr 1fr 1fr;
+            padding: 35px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.03);
+            align-items: center;
+            transition: 0.4s ease;
+        }
+
+        .list-row:hover { transform: translateX(10px); border-bottom: 1px solid var(--primary); }
+        .order-id { font-size: 0.8rem; color: #bbb; }
+        .customer-info h4 { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 400; }
+        .customer-info p { font-size: 0.7rem; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
+        .product-name { font-style: italic; font-size: 0.9rem; color: var(--charcoal); }
+        .price-tag { font-family: 'Playfair Display', serif; font-size: 1.1rem; }
+
+        /* STATUS BADGE */
+        .status-badge { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; display: flex; align-items: center; gap: 10px; }
+        .dot { width: 6px; height: 6px; border-radius: 50%; }
+        .delivered { color: #8BA888; } .delivered .dot { background: #8BA888; box-shadow: 0 0 8px #8BA888; }
+        .shipped { color: #D4A373; } .shipped .dot { background: #D4A373; box-shadow: 0 0 8px #D4A373; }
+
+        @media (max-width: 1200px) {
+            .header-title h1 { font-size: 3rem; }
+            .list-row, .list-header { grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+            .order-id, .price-tag { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="logo">NICHY</div>
+        <ul class="nav-menu">
+            <li class="nav-item active"><a href="dashboard.html"><span>Dashboard</span></a></li>
+            <li class="nav-item"><a href="kelola-produk.html"><span>Kelola Produk</span></a></li>
+            <li class="nav-item"><a href="kelola-artikel.html"><span>Kelola Artikel</span></a></li>
+            <li class="nav-item"><a href="kelola-pengguna.html"><span>Kelola Pengguna</span></a></li>
+            <li class="nav-item"><a href="kelola-transaksi.html"><span>Kelola Transaksi</span></a></li>
+            <li class="nav-item"><a href="settings.html"><span>Settings</span></a></li>
+        </ul>
+        <a href="#" class="logout-link">LOGOUT</a>
+    </aside>
+
+    <main class="main-content">
+        <div class="header-section">
+            <div class="header-title">
+                <span>The Archives</span>
+                <h1>Transactions<br>Registry</h1>
+            </div>
+            
+            <div class="filter-wrapper">
+                <span class="filter-label">Filter by status</span>
+                <div class="filter-buttons">
+                    <button class="btn-filter active" onclick="filterByButton(this, 'all')">All</button>
+                    <button class="btn-filter" onclick="filterByButton(this, 'delivered')">Delivered</button>
+                    <button class="btn-filter" onclick="filterByButton(this, 'shipped')">Shipped</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="registry-list">
+            <div class="list-header">
+                <div>Ref. Number</div>
+                <div>Patron</div>
+                <div>Curated Goods</div>
+                <div>Value</div>
+                <div>Status</div>
+            </div>
+
+            <div id="transactionContainer">
+                </div>
+        </div>
+    </main>
+
+    <script>
+        const names = ['Eleanor Vance', 'Julian Casablancas', 'Sia Furler', 'Marcus Aurel', 'Fiona Apple', 'Thom Yorke', 'Lana Del Rey', 'Alex Turner'];
+        const items = ['Rose Petal Silk', 'Peach Glow', 'Vanilla Calm', 'Matcha Bliss'];
+        const container = document.getElementById('transactionContainer');
+
+        // Data 40 Transaksi
+        const transactions = [];
+        for (let i = 1; i <= 40; i++) {
+            const status = i % 2 === 0 ? 'delivered' : 'shipped';
+            transactions.push({
+                id: `#NC-${1000 + i}`,
+                name: names[Math.floor(Math.random() * names.length)],
+                tier: i % 3 === 0 ? 'Loyal Member' : 'New Guest',
+                product: items[Math.floor(Math.random() * items.length)],
+                value: `IDR ${Math.floor(Math.random() * 500 + 150)}k`,
+                status: status
+            });
+        }
+
+        function renderTransactions(data) {
+            container.innerHTML = '';
+            data.forEach(tr => {
+                container.innerHTML += `
+                    <div class="list-row">
+                        <div class="order-id">${tr.id}</div>
+                        <div class="customer-info">
+                            <h4>${tr.name}</h4>
+                            <p>${tr.tier}</p>
+                        </div>
+                        <div class="product-name">${tr.product}</div>
+                        <div class="price-tag">${tr.value}</div>
+                        <div class="status-badge ${tr.status}">
+                            <span class="dot"></span> ${tr.status}
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function filterByButton(element, status) {
+            document.querySelectorAll('.btn-filter').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+
+            if (status === 'all') {
+                renderTransactions(transactions);
+            } else {
+                renderTransactions(transactions.filter(t => t.status === status));
+            }
+        }
+
+        // Jalankan saat pertama load
+        renderTransactions(transactions);
+    </script>
+</body>
+</html>

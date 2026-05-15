@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Power of Scent | NICHY</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --primary: #B18B8E; 
+            --gold: #C5A059;
+            --charcoal: #2A2A2A; 
+            --bg: #F9F6F2;
+        }
+        
+        body { 
+            background-color: var(--bg); 
+            font-family: 'Poppins', sans-serif; 
+            color: var(--charcoal);
+            margin: 0;
+            line-height: 1.8;
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            padding: 30px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: transparent;
+        }
+        .logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--gold); font-weight: bold; }
+        .nav-links a { text-decoration: none; color: var(--charcoal); margin-left: 20px; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; }
+
+        /* --- ARTICLE HEADER --- */
+        .container { max-width: 1000px; margin: 50px auto; padding: 0 5%; }
+
+        .article-hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin-bottom: 120px;
+        }
+
+        .arch-image-wrapper {
+            position: relative;
+            width: 100%;
+            height: 650px;
+            border-radius: 500px 500px 0 0;
+            overflow: hidden;
+            border: 1px solid var(--gold);
+            padding: 12px;
+        }
+        .arch-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 490px 490px 0 0;
+        }
+
+        .header-text h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.8rem;
+            line-height: 1.1;
+            margin-bottom: 30px;
+            font-weight: 400;
+        }
+        .meta-info {
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            font-size: 0.75rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        /* --- BODY CONTENT --- */
+        .article-body {
+            font-size: 1.1rem;
+            color: #444;
+            margin-bottom: 100px;
+        }
+        .article-body p { margin-bottom: 35px; }
+
+        .dropcap {
+            float: left;
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            line-height: 0.8;
+            padding: 10px 15px 0 0;
+            color: var(--gold);
+        }
+
+        /* --- MOOD SECTION (Aroma as an Anchor) --- */
+        .mood-section {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            background: white;
+            margin: 100px 0;
+            align-items: center;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.02);
+        }
+
+        .mood-image {
+            height: 600px;
+            width: 100%;
+            object-fit: cover;
+            clip-path: ellipse(90% 100% at 10% 50%);
+        }
+
+        .mood-content {
+            padding: 80px;
+        }
+
+        .mood-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            font-style: italic;
+            margin-bottom: 25px;
+            font-weight: 400;
+        }
+
+        .highlight-box {
+            border-left: 2px solid var(--gold);
+            padding-left: 30px;
+            margin: 40px 0;
+            font-style: italic;
+            font-size: 1.2rem;
+            color: var(--charcoal);
+        }
+
+        @media (max-width: 850px) {
+            .article-hero, .mood-section { grid-template-columns: 1fr; }
+            .header-text h1 { font-size: 2.8rem; }
+            .arch-image-wrapper { height: 500px; }
+            .mood-image { clip-path: none; height: 350px; }
+            .mood-content { padding: 40px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">NICHY</div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="artikel.html">Journal</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="article-hero">
+            <div class="arch-image-wrapper">
+                <img src="assets/parfum.png" alt="Scent">
+            </div>
+            <div class="header-text">
+                <span class="meta-info">Fragrance — 6 Mins Read</span>
+                <h1>The Power of Scent: Memory and Emotion</h1>
+                <p>Mengapa satu hirupan aroma dapat membangkitkan ribuan kenangan yang terkubur? Mari menjelajahi hubungan magis antara indra penciuman dan jiwa manusia.</p>
+            </div>
+        </header>
+
+        <div class="article-body">
+            <p><span class="dropcap">P</span>enciuman adalah indra manusia yang paling primitif sekaligus yang paling kuat. Berbeda dengan penglihatan atau pendengaran yang harus melalui stasiun relay di otak bernama talamus sebelum diproses, aroma memiliki jalur "jalan tol" langsung menuju sistem limbik—pusat emosi dan memori jangka panjang kita.</p>
+            
+            <p>Inilah yang menjelaskan mengapa fenomena 'Proustian' sering terjadi: momen ketika aroma kue yang baru dipanggang atau wangi hujan di atas tanah kering tiba-tiba menarik kita kembali ke dekade yang lalu, menghadirkan detail memori yang bahkan tidak kita sadari masih kita simpan.</p>
+
+            <div class="highlight-box">
+                "Aroma bukan sekadar wewangian; ia adalah kapsul waktu cair yang mampu menghentikan detak jam dan menghidupkan kembali perasaan."
+            </div>
+
+            <p>Di NICHY kami memahami bahwa kecantikan dan perawatan diri bukan hanya tentang kesehatan fisik, melainkan juga kenyamanan emosional. Memilih wewangian yang tepat untuk ruangan atau kulit Anda adalah cara halus untuk mengatur suasana hati (mood) dan menciptakan lingkungan yang mendukung kesehatan mental.</p>
+        </div>
+
+        <section class="mood-section">
+            <img src="assets/aroma.png" alt="Vintage perfume" class="mood-image">
+            <div class="mood-content">
+                <h2>Aroma as an Anchor</h2>
+                <p>
+                    Dalam psikologi, kita mengenal konsep <i>anchoring</i>. Anda bisa sengaja menggunakan aroma tertentu saat sedang merasa sangat produktif, bahagia, atau tenang. 
+                </p>
+                <p>
+                    Lama-kelamaan, otak akan mengaitkan molekul aroma tersebut dengan kondisi emosional tersebut. Di masa depan, saat Anda merasa cemas atau lelah, menghirup aroma yang sama akan mengirimkan sinyal instan ke otak untuk kembali ke kondisi tenang. Ini adalah bentuk <strong>self-mastery</strong> melalui indra penciuman.
+                </p>
+                <p>
+                    Mulai hari ini, pilihlah aroma Anda dengan intensi. Apakah itu lavender untuk ketenangan, atau citrus untuk keberanian. Jadikan wangi sebagai identitas dan pelindung Anda.
+                </p>
+            </div>
+        </section>
+    </div>
+
+</body>
+</html>

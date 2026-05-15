@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Journal | NICHY.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@200;300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        :root { --primary: #B18B8E; --charcoal: #2A2A2A; --bg: #ffffff; }
+        body { background-color: var(--bg); font-family: 'Poppins', sans-serif; color: var(--charcoal); }
+
+        .journal-container { max-width: 1100px; margin: 150px auto; padding: 0 5%; }
+
+        /* --- HEADER --- */
+        .journal-intro { text-align: center; margin-bottom: 100px; }
+        .journal-intro h1 { font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 400; font-style: italic; margin-bottom: 10px; }
+        .journal-intro p { text-transform: uppercase; letter-spacing: 5px; font-size: 0.8rem; color: var(--primary); }
+
+        /* --- FEATURED POST --- */
+        .featured-post { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 50px; align-items: center; margin-bottom: 120px; text-decoration: none; color: inherit; }
+        .featured-img { width: 100%; height: 500px; object-fit: cover; filter: brightness(0.9); }
+        .featured-info span { font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase; color: var(--primary); }
+        .featured-info h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin: 15px 0; line-height: 1.2; }
+        .featured-info p { color: #666; line-height: 1.8; margin-bottom: 20px; }
+
+        /* --- ARTICLE GRID --- */
+        .article-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 80px 40px; }
+        .article-card { text-decoration: none; color: inherit; display: block; }
+        .article-card img { width: 100%; height: 400px; object-fit: cover; margin-bottom: 20px; transition: 0.5s ease; }
+        .article-card:hover img { filter: sepia(30%); transform: translateY(-5px); }
+        .article-card h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 10px; font-weight: 500; line-height: 1.3; }
+        .article-card .meta { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; color: var(--primary); margin-bottom: 5px; display: block; }
+
+        @media (max-width: 850px) {
+            .featured-post { grid-template-columns: 1fr; }
+            .journal-intro h1 { font-size: 2.5rem; }
+            .article-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo"><h1>NICHY</h1></div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="katalog.html">Collection</a></li>
+            <li><a href="artikel.html" style="color: var(--primary);">Journal</a></li>
+        </ul>
+    </nav>
+
+    <div class="journal-container">
+        <div class="journal-intro">
+            <p>Thoughts & Rituals</p>
+            <h1>The Journal</h1>
+        </div>
+
+        <a href="detail-artikel.html" class="featured-post">
+            <img src="https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?q=80&w=1000" alt="Self Care" class="featured-img">
+            <div class="featured-info">
+                <span>Rituals — 2026</span>
+                <h2>The Art of Evening Rituals: Finding Peace in Routine</h2>
+                <p>Bagaimana cara kita mengakhiri hari menentukan bagaimana kita memulai hari esok. Temukan langkah-langkah sederhana untuk ritual malam yang menenangkan...</p>
+                <div style="font-weight: 500; border-bottom: 1px solid var(--charcoal); display: inline-block; padding-bottom: 5px;">READ MORE</div>
+            </div>
+        </a>
+
+        <div class="article-grid">
+            <a href="detail-artikel1.html" class="article-card">
+                <img src="https://images.unsplash.com/photo-1552046122-03184de85e08?q=80&w=600" alt="Skin">
+                <div class="meta">Skincare — 5 Mins Read</div>
+                <h3>5 Natural Ingredients for Radiant Skin</h3>
+            </a>
+            <a href="detail-artikel2.html" class="article-card">
+                <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=600" alt="Bath">
+                <div class="meta">Mindfulness — 8 Mins Read</div>
+                <h3>The Science of Aromatherapy & Mood</h3>
+            </a>
+            <a href="detail-artikel3.html" class="article-card">
+                <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?q=80&w=600" alt="Morning">
+                <div class="meta">Wellness — 4 Mins Read</div>
+                <h3>Slow Morning: Why You Should Not Rush</h3>
+            </a>
+            <a href="detail-artikel4.html" class="article-card">
+                <img src="assets/parfum.png" alt="Scent">
+                <div class="meta">Fragrance — 6 Mins Read</div>
+                <h3>The Power of Scent: Memory and Emotion</h3>
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>

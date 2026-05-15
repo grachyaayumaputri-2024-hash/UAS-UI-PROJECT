@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article Detail | NICHY</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        :root { --primary: #B18B8E; --charcoal: #2A2A2A; }
+        body { background-color: #fff; font-family: 'Poppins', sans-serif; line-height: 1.8; color: var(--charcoal); }
+
+        .article-hero { width: 100%; height: 70vh; position: relative; margin-top: 80px; }
+        .article-hero img { width: 100%; height: 100%; object-fit: cover; }
+
+        .article-content-wrapper { max-width: 700px; margin: -100px auto 100px; position: relative; background: white; padding: 60px 80px; box-shadow: 0 30px 60px rgba(0,0,0,0.05); }
+
+        .article-header { text-align: center; margin-bottom: 50px; }
+        .article-header .category { text-transform: uppercase; letter-spacing: 4px; font-size: 0.75rem; color: var(--primary); display: block; margin-bottom: 20px; }
+        .article-header h1 { font-family: 'Playfair Display', serif; font-size: 3rem; line-height: 1.2; font-weight: 400; }
+        .article-header .author { font-style: italic; font-size: 0.9rem; color: #999; margin-top: 20px; display: block; }
+
+        .main-text p { margin-bottom: 25px; color: #444; font-size: 1.05rem; }
+        .main-text h2 { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin: 40px 0 20px; }
+        
+        .quote-block { border-left: 2px solid var(--primary); padding-left: 30px; margin: 50px 0; font-family: 'Playfair Display', serif; font-size: 1.5rem; font-style: italic; color: var(--primary); }
+
+        .back-link { display: block; text-align: center; margin-top: 80px; text-decoration: none; color: var(--charcoal); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; border-top: 1px solid #eee; padding-top: 40px; }
+
+        @media (max-width: 800px) {
+            .article-content-wrapper { padding: 40px 25px; margin: -50px 5% 50px; }
+            .article-header h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo"><h1>NICHY.</h1></div>
+        <ul class="nav-links">
+            <li><a href="artikel.html">← Back to Journal</a></li>
+        </ul>
+    </nav>
+
+    <header class="article-hero">
+        <img src="https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?q=80&w=1200" alt="Hero Image">
+    </header>
+
+    <article class="article-content-wrapper">
+        <div class="article-header">
+            <span class="category">Rituals & Wellness</span>
+            <h1>The Art of Evening Rituals: Finding Peace in Routine</h1>
+            <span class="author">Written by Nichy Editorial Team — May 2026</span>
+        </div>
+
+        <div class="main-text">
+            <p>Dunia bergerak begitu cepat, dan seringkali kita lupa memberikan waktu bagi diri sendiri untuk sekadar bernapas. Ritual malam bukan hanya tentang menggunakan skincare, tapi tentang memberikan sinyal kepada jiwa kita bahwa hari telah usai.</p>
+            
+            <div class="quote-block">
+                "Your evening routine is a love letter to your future self."
+            </div>
+
+            <h2>1. Unplug to Connect</h2>
+            <p>Langkah pertama dalam ritual malam yang estetik adalah mematikan layar. Cahaya biru dari gadget mengganggu ritme sirkadian tubuh. Cobalah menggantinya dengan membaca buku fisik atau sekadar mendengarkan musik lo-fi yang tenang.</p>
+
+            <h2>2. The Sensory Experience</h2>
+            <p>Gunakan indra penciumanmu. Nyalakan lilin aroma terapi atau gunakan <i>Vanilla Calm Body Lotion</i> dari koleksi kami. Biarkan aroma vanilla yang hangat merelaksasi otot-otot yang tegang setelah seharian bekerja.</p>
+            
+            <p>Menciptakan suasana yang nyaman di kamar tidur akan membantu kualitas tidurmu meningkat drastis. Matikan lampu utama dan gunakan lampu meja dengan cahaya hangat.</p>
+        </div>
+
+        <a href="artikel.html" class="back-link">Back to All Articles</a>
+    </article>
+
+</body>
+</html>

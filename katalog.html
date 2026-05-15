@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop All | Nichy Body Care</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        :root {
+            --primary-color: #B18B8E;
+            --text-dark: #4A3A3A;
+            --text-light: #888;
+            --bg-creme: #FCFAFA;
+            --white: #FFFFFF;
+            --gold: #D4AF37;
+        }
+
+        body.bg-creme {
+            background-color: var(--bg-creme);
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+        }
+
+        /* --- BANNER MEWAH --- */
+        .shop-banner {
+            /* Background gambar dengan overlay gradient biar teks tetap terbaca */
+            background: linear-gradient(to right, rgba(177, 139, 142, 0.9), rgba(177, 139, 142, 0.7)), url('https://images.unsplash.com/photo-1617897903246-719242758050?q=80&w=1200&auto=format&fit=crop') center/cover;
+            color: white;
+            text-align: center;
+            padding: 100px 20px;
+            margin-bottom: 40px;
+        }
+        .shop-banner h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            margin: 0 0 15px 0;
+            letter-spacing: 1px;
+        }
+        .shop-banner p {
+            font-size: 1.1rem;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            opacity: 0.9;
+        }
+
+        /* --- LAYOUT UTAMA --- */
+        .shop-container {
+            display: flex;
+            max-width: 1250px;
+            margin: 0 auto 80px;
+            padding: 0 5%;
+            gap: 50px;
+        }
+
+        /* --- SIDEBAR FILTER --- */
+        .shop-sidebar {
+            width: 260px;
+            flex-shrink: 0;
+        }
+        .filter-group {
+            margin-bottom: 35px;
+            background: var(--white);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03); /* Bayangan estetik */
+        }
+        .filter-group h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+            border-bottom: 1px solid #F0F0F0;
+            padding-bottom: 10px;
+        }
+        .filter-group ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .filter-group li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95rem;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .filter-group li:hover {
+            color: var(--primary-color);
+        }
+        .filter-group input[type="checkbox"] {
+            accent-color: var(--primary-color);
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        /* --- KONTEN UTAMA --- */
+        .shop-main {
+            flex: 1;
+        }
+        .shop-topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #EAEAEA;
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+        .sort-dropdown {
+            padding: 10px 20px;
+            border: 1px solid #EAEAEA;
+            border-radius: 30px;
+            background: var(--white);
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* --- KARTU PRODUK ESTETIK --- */
+        .shop-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 30px;
+        }
+        .shop-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.04);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+        .shop-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(177, 139, 142, 0.15);
+        }
+        
+        .shop-img-box {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            background: #F8F8F8;
+        }
+        .shop-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        /* Efek Zoom saat card di-hover */
+        .shop-card:hover .shop-img-box img {
+            transform: scale(1.05);
+        }
+        
+        .badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--gold);
+            color: white;
+            font-size: 0.75rem;
+            padding: 6px 15px;
+            border-radius: 30px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            z-index: 2;
+            text-transform: uppercase;
+        }
+        .badge.new { background: var(--primary-color); }
+        
+        .shop-info {
+            text-align: center;
+        }
+        .shop-category {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+            display: block;
+        }
+        .shop-info h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: var(--text-dark);
+            margin: 0 0 10px 0;
+        }
+        .shop-info .price {
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 0 0 20px 0;
+        }
+        
+        .btn-cart {
+            display: inline-block;
+            width: 100%;
+            padding: 12px;
+            background: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            border-radius: 30px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            text-decoration: none;
+            transition: 0.3s;
+            cursor: pointer;
+            box-sizing: border-box;
+        }
+        .btn-cart:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* --- RESPONSIVE UNTUK HP --- */
+        @media (max-width: 900px) {
+            .shop-container {
+                flex-direction: column;
+            }
+            .shop-sidebar {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="bg-creme">
+
+    <nav class="navbar">
+        <div class="logo"><h1>NICHY</h1></div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="katalog.html" class="active">Products</a></li>
+            <li><a href="histori.html" class="active">My Orders</a></li>
+        </ul>
+        <div class="nav-icons">
+    <a href="keranjang.html" style="text-decoration: none; color: inherit;">
+        <span class="cart-icon">🛒 (2)</span>
+    </a>
+</div>
+    </nav>
+
+    <div class="shop-banner">
+        <h2>Shop All Skincare</h2>
+        <p>Nutrisi harian untuk kulit bercahaya, rasakan sentuhan kemewahan.</p>
+    </div>
+
+    <div class="shop-container">
+        
+        <aside class="shop-sidebar">
+            <div class="filter-group">
+                <h3>Categories</h3>
+                <ul>
+                    <li><input type="checkbox" id="cat-body" checked> <label for="cat-body">Body Lotions</label></li>
+                    <li><input type="checkbox" id="cat-scrub"> <label for="cat-scrub">Body Scrubs</label></li>
+                    <li><input type="checkbox" id="cat-serum"> <label for="cat-serum">Body Serums</label></li>
+                </ul>
+            </div>
+            
+            <div class="filter-group">
+                <h3>Scent Notes</h3>
+                <ul>
+                    <li><input type="checkbox" id="scent-floral"> <label for="scent-floral">Floral & Fresh</label></li>
+                    <li><input type="checkbox" id="scent-sweet"> <label for="scent-sweet">Sweet & Fruity</label></li>
+                    <li><input type="checkbox" id="scent-woody"> <label for="scent-woody">Warm & Woody</label></li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="shop-main">
+            <div class="shop-topbar">
+                <span>Menampilkan 4 Produk Eksklusif</span>
+                <select class="sort-dropdown">
+                    <option>Urutkan: Paling Diminati</option>
+                    <option>Harga: Rendah ke Tinggi</option>
+                    <option>Harga: Tinggi ke Rendah</option>
+                </select>
+            </div>
+
+            <div class="shop-grid">
+    <div class="shop-card">
+        <a href="detail-produk.html" class="shop-img-box" style="display: block;">
+            <span class="badge">Best Seller</span>
+            <img src="assets/rose.png" alt="Rose Petal Lotion">
+        </a>
+        
+        <div class="shop-info">
+            <span class="shop-category">Body Lotion</span>
+            <a href="detail-produk.html" style="text-decoration: none;">
+                <h4>Rose Petal Silk</h4>
+            </a>
+            <p class="price">Rp 89.000</p>
+            
+            <a href="detail-produk.html" class="btn-cart">View Detail</a>
+        </div>
+    </div>
+
+                <div class="shop-card">
+    <a href="detail-peach.html" class="shop-img-box" style="display: block;">
+        <img src="assets/peach.png" alt="Peach Glow Lotion">
+    </a>
+    
+    <div class="shop-info">
+        <span class="shop-category">Body Lotion</span>
+        <a href="detail-peach.html" style="text-decoration: none;">
+            <h4>Peach Glow</h4>
+        </a>
+        <p class="price">Rp 89.000</p>
+        
+        <a href="detail-peach.html" class="btn-cart">View Detail</a>
+    </div>
+</div>
+
+               <div class="shop-card">
+    <a href="detail-vanilla.html" class="shop-img-box" style="display: block;">
+        <span class="badge new">New</span>
+        <img src="assets/vanilla.png" alt="Vanilla Calm Lotion">
+    </a>
+    
+    <div class="shop-info">
+        <span class="shop-category">Body Serum</span>
+        <a href="detail-vanilla.html" style="text-decoration: none;">
+            <h4>Vanilla Calm</h4>
+        </a>
+        <p class="price">Rp 99.000</p>
+        
+        <a href="detail-vanilla.html" class="btn-cart">View Detail</a>
+    </div>
+</div>
+                
+                <div class="shop-card">
+    <a href="detail-matcha.html" class="shop-img-box" style="display: block;">
+        <img src="assets/matcha.png" alt="Matcha Detox Scrub">
+    </a>
+    
+    <div class="shop-info">
+        <span class="shop-category">Body Scrub</span>
+        <a href="detail-matcha.html" style="text-decoration: none;">
+            <h4>Matcha Bliss</h4>
+        </a>
+        <p class="price">Rp 129.000</p>
+        
+        <a href="detail-matcha.html" class="btn-cart">View Detail</a>
+    </div>
+</div>
+            </div>
+        </main>
+    </div>
+
+</body>
+</html>

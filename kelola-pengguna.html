@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Patronage | NICHY. User Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400;1,500;1,600&family=Poppins:wght@200;300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #FAF9F6;
+            --primary: #B18B8E;
+            --gold: #C5A059;
+            --charcoal: #2A2A2A;
+            --border: #E5E5E0;
+            --danger: #d69e9e;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); font-family: 'Poppins', sans-serif; color: var(--charcoal); display: flex; scroll-behavior: smooth; }
+
+        /* --- SIDEBAR --- */
+        .sidebar {
+            width: 260px; background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(30px);
+            padding: 40px; display: flex; flex-direction: column; position: fixed;
+            height: 100vh; border-right: 1px solid rgba(0,0,0,0.03); z-index: 100;
+        }
+        .logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--gold); font-weight: 600; margin-bottom: 50px; letter-spacing: -1px; }
+        .nav-menu { list-style: none; }
+        .nav-item { margin-bottom: 25px; }
+        .nav-item a { text-decoration: none; color: #999; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; transition: 0.4s; }
+        .nav-item.active a { color: var(--primary); font-style: italic; }
+        .logout-link { margin-top: auto; text-decoration: none; color: var(--gold); font-size: 0.75rem; letter-spacing: 4px; opacity: 0.6; display: block; }
+
+        /* --- MAIN CONTENT --- */
+        .content { margin-left: 260px; padding: 80px 8% 100px; width: calc(100% - 260px); min-height: 100vh; }
+
+        .page-section { display: none; animation: fadeIn 0.5s ease; }
+        .page-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Header */
+        .header-section { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 50px; }
+        .header-title span { font-family: 'Playfair Display', serif; font-style: italic; color: var(--primary); font-size: 1.1rem; }
+        .header-title h1 { font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 400; line-height: 1; margin-top: 10px; }
+
+        /* Controls */
+        .list-controls { 
+            display: flex; justify-content: space-between; align-items: center; 
+            border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 30px; 
+        }
+        .controls-right { display: flex; align-items: center; gap: 20px; }
+        .sort-select {
+            border: none; border-bottom: 1px solid var(--charcoal);
+            background: transparent; font-family: 'Poppins', sans-serif;
+            font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px;
+            color: var(--charcoal); outline: none; cursor: pointer; padding-bottom: 3px;
+        }
+
+        /* --- USER LIST --- */
+        .user-list-header {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1.5fr 1fr 1fr 120px;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #bbb;
+        }
+
+        .user-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1.5fr 1fr 1fr 120px;
+            padding: 25px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.03);
+            align-items: center;
+            transition: 0.3s;
+        }
+        .user-row:hover { background: rgba(177, 139, 142, 0.02); }
+
+        .user-info .name { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--charcoal); display: block; }
+        .user-info .email { font-size: 0.75rem; color: #999; font-weight: 300; }
+        
+        .user-city, .user-phone { font-size: 0.85rem; color: #777; font-weight: 300; }
+        
+        .stat-box { display: flex; flex-direction: column; }
+        .stat-value { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--charcoal); }
+        .stat-label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1px; color: var(--gold); }
+
+        /* Buttons */
+        .btn-primary { 
+            background: var(--charcoal); color: white;
+            padding: 18px 45px; border-radius: 50px; border: none;
+            font-size: 0.7rem; text-transform: uppercase; letter-spacing: 3px;
+            cursor: pointer; transition: 0.4s;
+        }
+        .btn-primary:hover { background: var(--primary); transform: translateY(-2px); }
+
+        .btn-action { 
+            background: none; border: none; font-size: 0.65rem; text-transform: uppercase; 
+            letter-spacing: 1px; cursor: pointer; color: #ccc; transition: 0.3s;
+        }
+
+        /* Aesthetic Remove Button */
+        .btn-remove {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--danger);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-remove:hover {
+            border-color: var(--danger);
+            background: rgba(214, 158, 158, 0.05);
+            transform: translateY(-1px);
+        }
+
+        /* --- FORM AREA --- */
+        .form-area { max-width: 800px; margin-top: 40px; }
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 35px; }
+        .group label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: #bbb; }
+        .group input {
+            border: none; border-bottom: 1px solid var(--border);
+            background: transparent; padding: 12px 0;
+            font-family: 'Poppins', sans-serif; font-size: 1rem;
+            color: var(--charcoal); outline: none; transition: 0.4s;
+            font-weight: 300;
+        }
+        .group input:focus { border-bottom: 1px solid var(--gold); }
+
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="logo">NICHY</div>
+        <ul class="nav-menu">
+            <li class="nav-item active"><a href="dashboard.html"><span>Dashboard</span></a></li>
+            <li class="nav-item"><a href="kelola-produk.html"><span>Kelola Produk</span></a></li>
+            <li class="nav-item"><a href="kelola-artikel.html"><span>Kelola Artikel</span></a></li>
+            <li class="nav-item"><a href="kelola-pengguna.html"><span>Kelola Pengguna</span></a></li>
+            <li class="nav-item"><a href="kelola-transaksi.html"><span>Kelola Transaksi</span></a></li>
+            <li class="nav-item"><a href="settings.html"><span>Settings</span></a></li>
+        </ul>
+        <a href="#" class="logout-link">LOGOUT</a>
+    </aside>
+
+    <main class="content">
+        <section id="listPage" class="page-section active">
+            <header class="header-section">
+                <div class="header-title">
+                    <span>Our Community</span>
+                    <h1>The Patronage</h1>
+                </div>
+                <button class="btn-primary" onclick="showPage('addPage')">Invite Kin</button>
+            </header>
+
+            <div class="list-controls">
+                <div class="controls-left">
+                    <span style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; color: #999;">Directory of Members</span>
+                </div>
+                <div class="controls-right">
+                    <label style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; color: #bbb;">Sort By:</label>
+                    <select class="sort-select" id="sortUser" onchange="sortUsers(this.value)">
+                        <option value="name">Alphabetical</option>
+                        <option value="orders">Most Orders</option>
+                        <option value="points">Highest Points</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="user-list-header">
+                <div>Member Details</div>
+                <div>Origin</div>
+                <div>Contact</div>
+                <div>History</div>
+                <div>Loyalty</div>
+                <div style="text-align: right;">Action</div>
+            </div>
+
+            <div id="userGrid">
+                </div>
+        </section>
+
+        <section id="addPage" class="page-section">
+            <header class="header-section" style="margin-bottom: 40px;">
+                <div class="header-title">
+                    <span>Registration</span>
+                    <h1>New Kinship</h1>
+                </div>
+                <button class="btn-action" onclick="showPage('listPage')" style="color: var(--charcoal); border-bottom: 1px solid var(--charcoal);">← Back to Directory</button>
+            </header>
+
+            <div class="form-area">
+                <div class="group">
+                    <label>Full Name</label>
+                    <input type="text" id="userName" placeholder="e.g. Eleanor Vance">
+                </div>
+                <div class="row">
+                    <div class="group">
+                        <label>City of Origin</label>
+                        <input type="text" id="userCity" placeholder="Jakarta">
+                    </div>
+                    <div class="group">
+                        <label>Phone Number</label>
+                        <input type="text" id="userPhone" placeholder="+62 812 ...">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="group">
+                        <label>Initial Orders</label>
+                        <input type="number" id="userOrders" value="0">
+                    </div>
+                    <div class="group">
+                        <label>Initial Points</label>
+                        <input type="number" id="userPoints" value="0">
+                    </div>
+                </div>
+                <button class="btn-primary" onclick="addUser()">Register Member</button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // 25 Mock Data Users
+        let users = [
+            { id: 1, name: "Aria Thorne", city: "Jakarta", phone: "0812-3456-7890", orders: 24, points: 1250, email: "aria.t@essence.com" },
+            { id: 2, name: "Julian Moretti", city: "Bandung", phone: "0811-9988-7766", orders: 12, points: 3400, email: "j.moretti@studio.it" },
+            { id: 3, name: "Sienna Ward", city: "Surabaya", phone: "0813-1122-3344", orders: 45, points: 8900, email: "sienna@ward.co" },
+            { id: 4, name: "Kaelen Voss", city: "Bali", phone: "0819-5555-0000", orders: 8, points: 520, email: "kvoss@minimal.com" },
+            { id: 5, name: "Eliza Finch", city: "Medan", phone: "0821-4433-2211", orders: 31, points: 2100, email: "eliza.f@botanical.id" },
+            { id: 6, name: "Bima Arya", city: "Semarang", phone: "0812-1111-2222", orders: 3, points: 150, email: "bima.arya@mail.com" },
+            { id: 7, name: "Clara Gadi", city: "Yogyakarta", phone: "0815-3333-4444", orders: 18, points: 1850, email: "clara.g@mail.com" },
+            { id: 8, name: "Dion Wiyoko", city: "Jakarta", phone: "0811-5555-6666", orders: 52, points: 10400, email: "dion.w@mail.com" },
+            { id: 9, name: "Farah Quinn", city: "Bandung", phone: "0818-7777-8888", orders: 27, points: 4050, email: "farah.q@mail.com" },
+            { id: 10, name: "Gilang Dirga", city: "Surabaya", phone: "0813-9999-0000", orders: 5, points: 250, email: "gilang.d@mail.com" },
+            { id: 11, name: "Hana Saraswati", city: "Bali", phone: "0812-0000-1111", orders: 14, points: 2100, email: "hana.s@mail.com" },
+            { id: 12, name: "Ivan Gunawan", city: "Jakarta", phone: "0819-2222-3333", orders: 40, points: 8000, email: "ivan.g@mail.com" },
+            { id: 13, name: "Jihan Fahira", city: "Malang", phone: "0821-4444-5555", orders: 9, points: 900, email: "jihan.f@mail.com" },
+            { id: 14, name: "Kevin Julio", city: "Bandung", phone: "0811-6666-7777", orders: 22, points: 3300, email: "kevin.j@mail.com" },
+            { id: 15, name: "Lita Gading", city: "Surabaya", phone: "0813-8888-9999", orders: 35, points: 7000, email: "lita.g@mail.com" },
+            { id: 16, name: "Maya Septha", city: "Yogyakarta", phone: "0818-1234-5678", orders: 11, points: 1650, email: "maya.s@mail.com" },
+            { id: 17, name: "Nando Pratama", city: "Semarang", phone: "0812-8765-4321", orders: 7, points: 350, email: "nando.p@mail.com" },
+            { id: 18, name: "Olivia Jensen", city: "Bali", phone: "0819-1357-2468", orders: 29, points: 4350, email: "olivia.j@mail.com" },
+            { id: 19, name: "Pandu Winoto", city: "Jakarta", phone: "0821-2468-1357", orders: 48, points: 9600, email: "pandu.w@mail.com" },
+            { id: 20, name: "Qori Sandioriva", city: "Medan", phone: "0811-3692-5814", orders: 16, points: 2400, email: "qori.s@mail.com" },
+            { id: 21, name: "Reza Rahadian", city: "Bandung", phone: "0813-1472-5836", orders: 60, points: 15000, email: "reza.r@mail.com" },
+            { id: 22, name: "Sarah Sechan", city: "Surabaya", phone: "0818-2583-6914", orders: 19, points: 2850, email: "sarah.s@mail.com" },
+            { id: 23, name: "Tari Lestari", city: "Malang", phone: "0812-7418-5296", orders: 4, points: 200, email: "tari.l@mail.com" },
+            { id: 24, name: "Umar Syarief", city: "Semarang", phone: "0819-9638-5274", orders: 38, points: 7600, email: "umar.s@mail.com" },
+            { id: 25, name: "Vina Panduwinata", city: "Jakarta", phone: "0821-8529-6374", orders: 25, points: 5000, email: "vina.p@mail.com" }
+        ];
+
+        function renderUsers(data) {
+            const grid = document.getElementById('userGrid');
+            grid.innerHTML = '';
+            data.forEach(user => {
+                grid.innerHTML += `
+                    <div class="user-row">
+                        <div class="user-info">
+                            <span class="name">${user.name}</span>
+                            <span class="email">${user.email}</span>
+                        </div>
+                        <div class="user-city">${user.city}</div>
+                        <div class="user-phone">${user.phone}</div>
+                        <div class="stat-box">
+                            <span class="stat-value">${user.orders}</span>
+                            <span class="stat-label">Orders</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-value">${user.points}</span>
+                            <span class="stat-label">Points</span>
+                        </div>
+                        <div style="text-align: right;">
+                            <button class="btn-remove" onclick="deleteUser(${user.id})">Remove</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function sortUsers(criteria) {
+            let sorted = [...users];
+            if(criteria === 'orders') {
+                sorted.sort((a, b) => b.orders - a.orders);
+            } else if (criteria === 'points') {
+                sorted.sort((a, b) => b.points - a.points);
+            } else {
+                sorted.sort((a, b) => a.name.localeCompare(b.name));
+            }
+            renderUsers(sorted);
+        }
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function addUser() {
+            const name = document.getElementById('userName').value;
+            const city = document.getElementById('userCity').value;
+            const phone = document.getElementById('userPhone').value;
+            const orders = parseInt(document.getElementById('userOrders').value);
+            const points = parseInt(document.getElementById('userPoints').value);
+
+            if(!name) return alert("Please enter a name.");
+
+            const newUser = {
+                id: Date.now(),
+                name: name,
+                city: city || "Unknown",
+                phone: phone || "-",
+                orders: orders || 0,
+                points: points || 0,
+                email: name.toLowerCase().replace(" ", ".") + "@member.com"
+            };
+
+            users.push(newUser);
+            sortUsers(document.getElementById('sortUser').value);
+            showPage('listPage');
+            
+            // Clear inputs
+            document.getElementById('userName').value = "";
+            document.getElementById('userCity').value = "";
+            document.getElementById('userPhone').value = "";
+        }
+
+        function deleteUser(id) {
+            if(confirm("Remove this member from the patronage?")) {
+                users = users.filter(u => u.id !== id);
+                sortUsers(document.getElementById('sortUser').value); // Render dengan filter aktif
+            }
+        }
+
+        // Initial Render
+        sortUsers('name'); // Default sort: Alphabetical
+    </script>
+</body>
+</html>

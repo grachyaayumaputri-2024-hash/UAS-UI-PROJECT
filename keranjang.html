@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Curated Bag | NICHY.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --primary: #B18B8E;
+            --charcoal: #4A3A3A;
+            --gold: #D4AF37;
+            --soft-cream: #FCFAFA;
+            --border: #ece2e3;
+        }
+
+        body { 
+            background-color: var(--soft-cream); 
+            font-family: 'Poppins', sans-serif;
+            color: var(--charcoal);
+        }
+
+        .cart-wrapper {
+            max-width: 1100px;
+            margin: 140px auto 100px;
+            padding: 0 5%;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 60px;
+        }
+
+        /* --- TITLE SECTION --- */
+        .cart-header {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .cart-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 400;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+
+        .cart-header .sub-header {
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-size: 0.8rem;
+            color: var(--primary);
+        }
+
+        /* --- ITEM LIST --- */
+        .cart-items {
+            border-top: 1px solid var(--border);
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 30px 0;
+            border-bottom: 1px solid var(--border);
+            transition: 0.3s ease;
+        }
+
+        .item-img-container {
+            width: 120px;
+            height: 150px;
+            border-radius: 4px;
+            overflow: hidden;
+            background: #f4f4f4;
+        }
+
+        .item-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(20%);
+        }
+
+        .item-info {
+            flex: 1;
+            padding-left: 30px;
+        }
+
+        .item-info .category {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--primary);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .item-info h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            margin: 0 0 5px;
+            font-weight: 500;
+        }
+
+        /* --- QUANTITY & REMOVE --- */
+        .item-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 15px;
+        }
+
+        .item-qty {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            border: 1px solid var(--border);
+            padding: 8px 15px;
+            border-radius: 2px;
+        }
+
+        .qty-btn { cursor: pointer; border: none; background: none; font-size: 1.2rem; }
+        
+        .remove-btn {
+            font-size: 0.75rem;
+            text-decoration: underline;
+            color: #999;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* --- ORDER SUMMARY --- */
+        .cart-summary {
+            background: white;
+            padding: 40px;
+            height: fit-content;
+            position: sticky;
+            top: 150px;
+            border: 1px solid var(--border);
+        }
+
+        .cart-summary h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            font-weight: 400;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .total-row {
+            border-top: 1px solid var(--border);
+            padding-top: 25px;
+            margin-top: 25px;
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: var(--charcoal);
+        }
+
+        .btn-checkout {
+            display: block;
+            width: 100%;
+            padding: 20px;
+            background: var(--charcoal);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            margin-top: 40px;
+            font-size: 0.85rem;
+            letter-spacing: 3px;
+            transition: 0.4s;
+        }
+
+        .btn-checkout:hover {
+            background: var(--primary);
+            letter-spacing: 5px;
+        }
+
+        .promo-code {
+            margin-top: 30px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .promo-code input {
+            border: none;
+            outline: none;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.8rem;
+            width: 70%;
+        }
+
+        @media (max-width: 900px) {
+            .cart-wrapper { grid-template-columns: 1fr; }
+            .cart-header h2 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo"><h1>NICHY</h1></div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="katalog.html">Collection</a></li>
+            <li><a href="histori.html" class="active">My Orders</a></li>
+        </ul>
+        <div class="nav-icons"><span>🛒 (2)</span></div>
+    </nav>
+
+    <div class="cart-wrapper">
+        <div class="cart-header">
+            <span class="sub-header">Your Selection</span>
+            <h2>The Shopping Bag</h2>
+        </div>
+
+        <div class="cart-items">
+            <div class="cart-item">
+                <div class="item-img-container">
+                    <img src="assets/rose.png" alt="Rose Silk">
+                </div>
+                <div class="item-info">
+                    <span class="category">Best Seller</span>
+                    <h4>Rose Petal Silk</h4>
+                    <p style="font-size: 0.8rem; color: #999;">Size: 250ml</p>
+                    <p style="font-weight: 500; margin-top: 10px;">Rp 89.000</p>
+                </div>
+                <div class="item-controls">
+                    <div class="item-qty">
+                        <button class="qty-btn">−</button>
+                        <span>1</span>
+                        <button class="qty-btn">+</button>
+                    </div>
+                    <span class="remove-btn">Remove</span>
+                </div>
+            </div>
+
+            <div class="cart-item">
+                <div class="item-img-container">
+                    <img src="assets/vanilla.png" alt="Vanilla Calm">
+                </div>
+                <div class="item-info">
+                    <span class="category">Body Serum</span>
+                    <h4>Vanilla Calm</h4>
+                    <p style="font-size: 0.8rem; color: #999;">Size: 200ml</p>
+                    <p style="font-weight: 500; margin-top: 10px;">Rp 99.000</p>
+                </div>
+                <div class="item-controls">
+                    <div class="item-qty">
+                        <button class="qty-btn">−</button>
+                        <span>1</span>
+                        <button class="qty-btn">+</button>
+                    </div>
+                    <span class="remove-btn">Remove</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="cart-summary">
+            <h3>Order Summary</h3>
+            <div class="summary-row">
+                <span>Subtotal</span>
+                <span>Rp 188.000</span>
+            </div>
+            <div class="summary-row">
+                <span>Shipping</span>
+                <span style="font-style: italic;">Calculated at checkout</span>
+            </div>
+            
+            <div class="promo-code">
+                <input type="text" placeholder="Promo Code">
+                <span style="font-size: 0.7rem; font-weight: 600; cursor: pointer;">APPLY</span>
+            </div>
+
+            <div class="total-row summary-row">
+                <span>Total</span>
+                <span style="color: var(--primary);">Rp 188.000</span>
+            </div>
+            
+           <a href="pembayaran.html" class="btn-checkout">PROCEED TO CHECKOUT</a>
+            
+            <div style="margin-top: 30px; text-align: center;">
+                <p style="font-size: 0.7rem; color: #BBB; line-height: 1.6;">
+                    Complimentary samples included with every order.<br>
+                    Free shipping on orders over Rp 500.000
+                </p>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slow Morning: Why You Should Not Rush | NICHY</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        :root { 
+            --primary: #B18B8E; 
+            --charcoal: #2A2A2A; 
+            --cream: #FAF7F2; /* Warna krem hangat untuk vibe pagi */
+        }
+        
+        body { 
+            background-color: var(--cream); 
+            font-family: 'Poppins', sans-serif; 
+            line-height: 1.8; 
+            color: var(--charcoal);
+            margin: 0;
+        }
+
+        /* --- NAVIGATION --- */
+        .nav-back {
+            padding: 40px 5%;
+            display: flex;
+            align-items: center;
+        }
+        .nav-back a { 
+            text-decoration: none; 
+            color: var(--charcoal); 
+            font-size: 0.75rem; 
+            letter-spacing: 2px; 
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--charcoal);
+        }
+
+        /* --- CONTENT LAYOUT --- */
+        .article-wrapper {
+            max-width: 900px;
+            margin: 0 auto 100px;
+            padding: 0 5%;
+        }
+
+        .main-image-container {
+            width: 100%;
+            height: 600px;
+            overflow: hidden;
+            margin-bottom: 60px;
+        }
+        .main-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .article-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+        .article-header span {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            color: var(--primary);
+            display: block;
+            margin-bottom: 15px;
+        }
+        .article-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 400;
+            line-height: 1.2;
+            margin: 0;
+        }
+
+        /* --- TYPOGRAPHY --- */
+        .content-section {
+            background: white;
+            padding: 80px;
+            box-shadow: 20px 20px 0px rgba(177, 139, 142, 0.1); /* Shadow estetik kaku */
+        }
+
+        .content-section p {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            color: #444;
+        }
+
+        .dropcap {
+            float: left;
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            line-height: 1;
+            padding-right: 15px;
+            color: var(--primary);
+        }
+
+        .ritual-list {
+            margin: 50px 0;
+            padding: 0;
+            list-style: none;
+        }
+        .ritual-item {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 40px;
+            align-items: flex-start;
+        }
+        .ritual-number {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+        .ritual-text h4 {
+            margin: 0 0 10px 0;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+        }
+
+        .quote-vibe {
+            text-align: center;
+            padding: 60px 0;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 2rem;
+            color: var(--charcoal);
+            line-height: 1.4;
+        }
+
+        @media (max-width: 768px) {
+            .article-header h1 { font-size: 2.2rem; }
+            .content-section { padding: 40px 25px; }
+            .main-image-container { height: 350px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="nav-back">
+        <a href="artikel.html">Back to Journal</a>
+    </nav>
+
+    <div class="article-wrapper">
+        <header class="article-header">
+            <span>Wellness — 4 Mins Read</span>
+            <h1>Slow Morning: Why You Should Not Rush</h1>
+        </header>
+
+        <div class="main-image-container">
+            <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?q=80&w=1200" alt="Morning Sun">
+        </div>
+
+        <div class="content-section">
+            <p><span class="dropcap">P</span>agi hari adalah pondasi dari seluruh hari Anda. Namun, di dunia yang serba cepat ini, kita seringkali terjebak dalam kebiasaan reaktif: bangun karena alarm yang berisik, segera mengecek notifikasi ponsel, dan terburu-buru bersiap berangkat kerja.</p>
+            
+            <p>Filosofi *Slow Morning* bukan berarti Anda harus bermalas-malasan. Sebaliknya, ini adalah tentang intensi. Ini adalah tentang memberikan ruang bagi pikiran Anda untuk bangun secara alami sebelum dunia luar mulai menuntut perhatian Anda.</p>
+
+            <div class="quote-vibe">
+                "How you spend your morning is a preview of how you will spend your life."
+            </div>
+
+            <div class="ritual-list">
+                <div class="ritual-item">
+                    <div class="ritual-number">01.</div>
+                    <div class="ritual-text">
+                        <h4>Analog Hour</h4>
+                        <p>Cobalah untuk tidak menyentuh layar digital selama 30-60 menit pertama. Biarkan otak Anda bertransisi dari tidur ke bangun tanpa interupsi informasi luar.</p>
+                    </div>
+                </div>
+                <div class="ritual-item">
+                    <div class="ritual-number">02.</div>
+                    <div class="ritual-text">
+                        <h4>Mindful Hydration</h4>
+                        <p>Nikmati segelas air hangat atau teh favorit Anda. Rasakan suhu gelasnya, hirup uapnya, dan minumlah perlahan tanpa gangguan.</p>
+                    </div>
+                </div>
+                <div class="ritual-item">
+                    <div class="ritual-number">03.</div>
+                    <div class="ritual-text">
+                        <h4>Light Movement</h4>
+                        <p>Peregangan ringan selama 5 menit sudah cukup untuk melancarkan sirkulasi darah dan memberikan sinyal 'bangun' yang lembut pada otot Anda.</p>
+                    </div>
+                </div>
+            </div>
+
+            <p>Dengan menerapkan pagi yang lambat, Anda akan menyadari bahwa Anda memiliki kendali penuh atas hari Anda. Ketenangan yang Anda bangun di pagi hari akan menjadi pelindung Anda saat menghadapi kesibukan di siang hari.</p>
+        </div>
+
+        <div style="text-align: center; margin-top: 60px;">
+            <p style="font-size: 0.8rem; letter-spacing: 2px; color: #aaa;">SHARE THIS ARTICLE</p>
+            <p style="color: var(--primary); font-family: 'Playfair Display'; font-style: italic;">Pinterest / Instagram / Twitter</p>
+        </div>
+    </div>
+
+</body>
+</html>
